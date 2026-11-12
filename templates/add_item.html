@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report an Item | LostLink</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="form-page">
+
+    <div class="form-container">
+
+        <a href="{{ url_for('index') }}" class="back-link">
+            ← Back to Home
+        </a>
+
+        <h1>Report an Item</h1>
+
+        <p class="form-subtitle">
+            Share the details so we can help reconnect it with its owner.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <label>Item Name</label>
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Example: Blue Water Bottle"
+                required
+            >
+
+            <label>Report Type</label>
+
+            <select name="category" required>
+                <option value="">Select Report Type</option>
+                <option value="Lost">I Lost Something</option>
+                <option value="Found">I Found Something</option>
+            </select>
+
+            <label>Description</label>
+
+            <textarea
+                name="description"
+                rows="4"
+                placeholder="Describe the item..."
+            ></textarea>
+
+            <label>Location</label>
+
+            <input
+                type="text"
+                name="location"
+                placeholder="Where was it lost or found?"
+            >
+
+            <label>Contact Information</label>
+
+            <input
+                type="text"
+                name="contact"
+                placeholder="Enter your email or phone number"
+                required
+            >
+
+            <!-- Image Upload -->
+
+            <label>Upload Item Picture</label>
+
+            <div class="upload-box">
+
+                <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept=".jpg,.jpeg,.png,.webp"
+                >
+
+                <p>Choose a picture of the lost or found item.</p>
+                <small>JPG, JPEG, PNG or WEBP (Maximum 5 MB)</small>
+
+            </div>
+
+            <!-- Image Preview -->
+
+            <div class="preview-container">
+                <img id="image-preview" alt="Selected item preview">
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Report
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    const imageInput = document.getElementById("image");
+    const preview = document.getElementById("image-preview");
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+        } else {
+            preview.style.display = "none";
+        }
+
+    });
+</script>
+
+</body>
+</html>
